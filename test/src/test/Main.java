@@ -1,41 +1,34 @@
 package test;
 
+import java.util.Scanner;
+
 public class Main {
 	public static void main(String[] args) {
-		
-		boolean[] check = new boolean[10001];
-		
-		for(int i=1; i<10001; i++) {
-			int n = test(i);
-			
-			// 10000이 넘는 수는 필요가 없음.
-			// 출력하면 안되는 수는 true로 바꿔준다.
-			if(n < 10001) {
-				check[n] = true;
-			}
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		
-		// false인 인덱스만 출력
-		for(int i=1; i<10001; i++) {
-			if(!check[i]) {
-				sb.append(i).append("\n");
-			}
-		}
-		System.out.println(sb);
+		Scanner sc = new Scanner(System.in);
+		System.out.print(arithmetic_sequence(sc.nextInt()));
+		sc.close();
 	}
 	
-	public static int test(int number) {
-		int sum = number;
+	public static int arithmetic_sequence(int num) {
+		int cnt=0; // 한수 카운팅
 		
-		//number가 0이 아닐때까지 반복
-		while(number !=0) {
-			sum = sum + (number%10); //첫째자릿수를 더한다.
-			number = number / 10; //1234입력시 123으로 줄임.
+		//100보다 작을땐 그 자체로 한수(등차수열)가 된다.
+		if(num < 100) {
+			return num;
+		} else {
+			cnt = 99;//최소 등차수열이 99개 존재함.
+			
+			for(int i=0;i<num;i++) {
+				int hun = i/100; //백의 자릿수
+				int ten = (i/10)%10; //십의 자릿수
+				int one = i%10;
+				
+				if((hun-ten) == (ten-one)) {//각 자릿수가 수열을 이루면
+					cnt++;
+				}
+			}
+			
 		}
-		return sum;
-		//return이 된다는 것은 생성자가 있는 수,
-		// 즉 출력하면 안 되는 수이다.
+		return cnt;
 	}
 }
